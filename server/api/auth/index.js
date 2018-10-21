@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const secret = require('../../credentials/jwt_secret')
 const bcrypt = require('bcrypt');
 const User = require('../../models/User');
+const Stock = require('../../models/User');
 
 /**
  * Description: Handles login by checking user/password combination
@@ -29,7 +30,7 @@ router.post('/login', async (req, res, next) => {
   }
 
   const token = await jwt.sign({ id: user.id }, secret, { expiresIn: "1y" });
-  res.json({ token });
+  res.json({ "auth-token": token });
 });
 
 /**

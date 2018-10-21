@@ -25,7 +25,35 @@ const UserSchema = new Schema(
     lastName: {
       type: String,
       required: true
-    }
+    },
+
+    stocks: [{
+      tickerSymbol: {
+        type: String,
+        required: true,
+        unique: true
+      },
+
+      company: {
+        type: String,
+        required: true,
+      },
+
+      currentValue: {
+        type: Number,
+        required: true
+      },
+
+      shares: {
+        type: Number,
+        required: true
+      },
+
+      dateAdded: {
+        type: Date,
+        default: Date.now
+      }
+    }]
   }
 )
 
