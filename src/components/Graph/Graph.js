@@ -31,6 +31,8 @@ export default class Graph extends React.Component {
 					start: '08-23-2017',
 					end: '08-28-2017'
 			}
+		}
+	}
 
 	handleStartChange = (e) => {
 		const chartData = this.state;
