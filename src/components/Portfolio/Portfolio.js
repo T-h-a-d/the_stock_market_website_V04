@@ -1,6 +1,7 @@
 import React from 'react';
 import socketIOClient from 'socket.io-client';
 import axios from 'axios';
+import { Grid, Row, Col, Alert } from 'react-bootstrap'
 
 import StockChart from './StockChart'
 import StockInputForm from './StockInputForm';
@@ -14,6 +15,7 @@ export default class Portfolio extends React.Component {
     this.state = {
         stock_list: [],
         message: '',
+        error: ''
     }
   }
 
@@ -80,7 +82,17 @@ export default class Portfolio extends React.Component {
     try {
       const res = await axios.post(`https://stk-api-server.herokuapp.com/user/stocks/add/${newItem}`, body, config);
       const data = await res.data;
-      this.setState({stock_list: [...this.state.stock_list, data]})
+
+      if(data.error){
+        this.setState({ error: data.error })
+
+        setTimeout(function(){
+          this.setState({ error: '' });
+        }.bind(this), 10000);
+      }
+      else{
+        this.setState({stock_list: [...this.state.stock_list, data]})
+      }
 
     }catch(error){
       console.log(error);
@@ -124,6 +136,19 @@ export default class Portfolio extends React.Component {
   }
 
   render(){
+    const { error } = this.state
+
+    let errorMessage;
+
+    if (error) {
+      errorMessage =
+        <Grid>
+          <Row>
+            <Col md={4} xsOffset={4}><Alert bsStyle="danger" className="error">{ error }</Alert></Col>
+          </Row>
+        </Grid>
+    }
+
     return(
       <div>
           <StockInputForm
@@ -131,6 +156,7 @@ export default class Portfolio extends React.Component {
             itemEntered = {this.itemEntered}
             sharesEntered={this.sharesEntered}
           />
+          {errorMessage}
           <StockChart
             stock_list={this.state.stock_list}
             share_count={this.state.share_count}

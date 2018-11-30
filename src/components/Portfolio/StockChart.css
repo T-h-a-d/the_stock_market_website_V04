@@ -26,3 +26,8 @@
 	background-color: #b01d77;
 	color: white;
 }
+
+.error{
+	margin: 1em;
+	text-align: center;
+}

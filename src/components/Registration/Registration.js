@@ -18,7 +18,6 @@ export default class Registration extends React.Component {
 
   registerUser = async (event) => {
     event.preventDefault();
-    console.log('wtf happened')
 
     const body = {
       email: this.state.email,
